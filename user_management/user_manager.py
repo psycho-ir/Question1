@@ -1,3 +1,5 @@
+from user_management.models import User
+
 __author__ = 'SOROOSH'
 
 
@@ -17,4 +19,15 @@ def register_user(user, input_captcha, session):
         user.save()
     except Exception as e:
         print e
+
+
+def authenticate(username,password):
+    try:
+        user = User.objects.get(username=username)
+        if user.is_pass_correct(password):
+            return user
+        return None
+    except Exception as e:
+        print e
+        return None
 
