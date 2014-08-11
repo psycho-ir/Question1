@@ -4,9 +4,19 @@ from django.template import RequestContext
 from django.views.generic import View
 from random import choice
 from user_management.models import User
-from user_management.user_manager import register_user, CaptchaException, UserAlreadyExistException
+from user_management.user_manager import register_user, CaptchaException, UserAlreadyExistException, authenticate
 
 captcha_options = ['wow', 'hello', 'geek', 'nerd', 'yagni']
+
+
+class LoginView(View):
+    def get(self,request):
+        return render_to_response('login.html',{},RequestContext(request))
+
+    def post(self, request):
+        username = request.POST['username']
+        password = request.POST['password']
+        return HttpResponse(authenticate(username, password))
 
 
 class RegisterView(View):

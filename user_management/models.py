@@ -7,7 +7,6 @@ class User(models.Model):
     password = models.CharField(max_length=200)
     email = models.EmailField(unique=True)
 
-
     def _hash(self, plain_text, salt):
         return hashlib.sha512(str(plain_text) + str(salt)).hexdigest()
 
@@ -20,3 +19,6 @@ class User(models.Model):
         if self.password == hashed_password:
             return True
         return False
+
+    def __unicode__(self):
+        return 'username:%s , Email:%s , Password: Hmmmmm, i forgot it sorry man ;)' % (self.username, self.email)
