@@ -2,15 +2,22 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>Register page</title>
+    <style>
+        input {
+            display: block;
+            padding: 15px;
+        }
+    </style>
 </head>
 <body>
 <form method="post">
     {% csrf_token %}
-    <input type="email" placeholder="Email"/>
-    <input type="text" placeholder="Username"/>
-    <input type="password" placeholder="Password"/>
-    {{ captcha }}
+    <input type="email" name="email" placeholder="Email"/>
+    <input type="text" name="username" placeholder="Username"/>
+    <input type="password" name="password" placeholder="Password"/>
+    <input type="text" name="captcha" placeholder="Captcha">
+    captcha is:{{ captcha }}
     <input type="submit" value="Register"/>
 </form>
 </body>
