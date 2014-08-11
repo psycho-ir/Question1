@@ -9,7 +9,7 @@ class CaptchaException(Exception):
 
 def _validate_captcha(user_input, captcha):
     if user_input.strip().lower() == captcha.strip().lower():
-        pass
+        return
     raise CaptchaException()
 
 
