@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -24,7 +25,6 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, "templates"),)
-
 
 ALLOWED_HOSTS = []
 
@@ -52,15 +52,40 @@ ROOT_URLCONF = 'Question1.urls'
 
 WSGI_APPLICATION = 'Question1.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
 DATABASES = {
+    # Configuration for sqlite
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    },
+    # Uncomment below for mysql dbms
+    # 'default': {
+    #         'ENGINE': 'django.db.backends.mysql',
+    #         'NAME': 'FataDB',
+    #         'USER': 'account_problem',
+    #         'PASSWORD': 'tnuocca',
+    #         'HOST': '127.0.0.1'
+    #     }
+
+    # Uncomment below for oracle dbms
+    # 'default': {
+    #       'ENGINE': 'django.db.backends.oracle',
+    #       'NAME': 'FataDB',
+    #       'USER': 'account_problem',
+    #       'PASSWORD': 'tnuocca',
+    #       'HOST': '127.0.0.1',
+    #       'PORT': '1521',
+    # },
+
+    # Uncomment below for postgresql dbms
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'mydatabase',
+    #     'USER': 'mydatabaseuser',
+    #     'PASSWORD': 'mypassword',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': '5432',
+    # }
 }
 
 # Internationalization

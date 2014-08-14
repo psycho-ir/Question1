@@ -4,7 +4,6 @@ from user_management.user_manager import authenticate, CaptchaException, registe
 
 password = 123456
 
-
 def persis_test_user():
     user = User()
     user.username = 'soroosh'

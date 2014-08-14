@@ -1,9 +1,9 @@
+__author__ = 'SOROOSH'
 from datetime import datetime, timedelta
 from user_management.exceptions import CaptchaException, UserAlreadyExistException, UserActivationExpired, UserInActiveException
 from user_management.mail import send_mail
 from user_management.models import User
 
-__author__ = 'SOROOSH'
 
 
 def _validate_captcha(user_input, captcha):

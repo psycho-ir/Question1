@@ -1,0 +1,115 @@
+<html>
+<head>
+    <title>Question 4 Document</title>
+    <style>
+        .code {
+            background-color: #BBBBBB;
+            width: 100%;
+            padding: 20px;
+            margin: 10px;
+        }
+
+        .alert {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<h1>How to run project</h1>
+<p>
+    First of all you need to install requirements.
+    <br/>
+    Please run: pip install -r requirements.txt in root of project to install below package:
+<ul>
+    <li>django: Web framework i used for this project</li>
+</ul>
+
+    If you want to use any dbms except sqlite please find approprate package from optional-requirements.txt and install it with pip.
+    Then in Question1/settions.py uncomment suitable DATABASE definition. For example for mysql you should uncomment:
+
+<div class="code">
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'FataDB',
+        'USER': 'account_problem',
+        'PASSWORD': '‫‪tnuocca‬‬',
+        'HOST': '127.0.0.1'
+    }
+</div>
+
+Then you need to generate database tabls. Please run code below command in the root of project:
+<div class="code">
+    python manage.py syncdb
+</div>
+This command generates tables and indexes from models in database.
+Then you need to run web server. You can run it with below command in the root of project:
+<div class="code">
+    python manage.py runserver
+</div>
+
+After running web server you can test application, following links could help you to do it:
+<ul>
+    <li>"/" is login form</li>
+    <li>"/register" is register form</li>
+    <li>"/activate" is activation form</li>
+</ul>
+
+
+</p>
+
+<h2>
+    Different Modules
+</h2>
+
+<h3>
+    category_finder
+</h3>
+
+<p>
+    We need to find all categories of P30Download website. category_finder.CategoryCrawler class is responsible to find all categories and
+    select one of them randomly. Also this class sanitizes categories to remove not unexpected category links which are in navbar.
+</p>
+
+<h3>
+    links_finder
+</h3>
+
+<p>
+    link_finder module is responsible for find post links from category link. Every category page has some posts in some pages (Maybe the number of posts are less than the
+    expected number of posts. In the other hand all posts are not in a page so we need to navigate to different pages of category to find the expected number of posts.
+    links_finder.PostLinkCrawler finds some pages which are required to gather links. _find_page_links is responsible to find all post links which are the given page.
+</p>
+
+<h2>
+    post_reader
+</h2>
+
+<p>
+    post_reader is responsible to fetch required information from post page. The mechanism of fetching field has comment to make the
+    algorithm clean for you.
+</p>
+<h2>
+    persistence
+</h2>
+<p>
+    persistence module is persist posts in mongodb. This module creates a mongoclient and uses given db and collections to do its operation.
+    insert_product method persists posts but before change the id field with _id because in mongodb _id is our primary_key and i want to have a general
+    way to insert and update documents.
+    i used update operation with upsert=True , this operation can update existed document but if document does not exist it will insert it.
+</p>
+<h2>
+    strategies
+</h2>
+<p>
+    The strategies are defined in this module, currently system has 2 strategy for fetching products (sequential and multithread)
+</p>
+
+<h2>
+    run_me
+</h2>
+<p>
+    run_me module is an orchestration between different modules of application. You can read it as a story board.
+</p>
+
+</body>
+</html>
