@@ -21,18 +21,6 @@ def register_user(user, input_captcha, session):
     user.save()
     send_mail(user.email, 'You activation code is: %s' % user.activation_code)
 
-
-def activate(code):
-    user = User.objects.get(activation_code=code)
-    if user.active:
-        raise Exception("User has been activated before.")
-    threshold_date = datetime.now() - timedelta(days=1)
-    if threshold_date > user.register_date:
-        raise UserActivationExpired('User Activation expired :)')
-    user.active = True
-    user.save()
-
-
 def authenticate(username, password):
     try:
         user = User.objects.get(username=username)
@@ -48,3 +36,13 @@ def authenticate(username, password):
         print e
         return None
 
+
+def activate(code):
+    user = User.objects.get(activation_code=code)
+    if user.active:
+        raise Exception("User has been activated before.")
+    threshold_date = datetime.now() - timedelta(days=1)
+    if threshold_date > user.register_date:
+        raise UserActivationExpired('User Activation expired :)')
+    user.active = True
+    user.save()

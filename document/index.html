@@ -16,6 +16,7 @@
 </head>
 <body>
 <h1>How to run project</h1>
+
 <p>
     First of all you need to install requirements.
     <br/>
@@ -24,16 +25,16 @@
     <li>django: Web framework i used for this project</li>
 </ul>
 
-    If you want to use any dbms except sqlite please find approprate package from optional-requirements.txt and install it with pip.
-    Then in Question1/settions.py uncomment suitable DATABASE definition. For example for mysql you should uncomment:
+If you want to use any dbms except sqlite please find approprate package from optional-requirements.txt and install it with pip.
+Then in Question1/settions.py uncomment suitable DATABASE definition. For example for mysql you should uncomment:
 
 <div class="code">
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'FataDB',
-        'USER': 'account_problem',
-        'PASSWORD': '‫‪tnuocca‬‬',
-        'HOST': '127.0.0.1'
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'FataDB',
+    'USER': 'account_problem',
+    'PASSWORD': '‫‪tnuocca‬‬',
+    'HOST': '127.0.0.1'
     }
 </div>
 
@@ -53,8 +54,6 @@ After running web server you can test application, following links could help yo
     <li>"/register" is register form</li>
     <li>"/activate" is activation form</li>
 </ul>
-
-
 </p>
 
 <h2>
@@ -62,54 +61,69 @@ After running web server you can test application, following links could help yo
 </h2>
 
 <h3>
-    category_finder
+    user_management.models
 </h3>
 
 <p>
-    We need to find all categories of P30Download website. category_finder.CategoryCrawler class is responsible to find all categories and
-    select one of them randomly. Also this class sanitizes categories to remove not unexpected category links which are in navbar.
+    User domain model is in this module, User is a django model so we will have a table relevant to it. <br/>
+    The user password will hash by set_password method so for setting password you need to call set_password instead of setting
+    password directly. Don't forget this note because if you set it directly it won't work. the other public methods use by services
+    and you don't need to use them directly
 </p>
 
 <h3>
-    links_finder
+    user_management.user_manager
 </h3>
 
 <p>
-    link_finder module is responsible for find post links from category link. Every category page has some posts in some pages (Maybe the number of posts are less than the
-    expected number of posts. In the other hand all posts are not in a page so we need to navigate to different pages of category to find the expected number of posts.
-    links_finder.PostLinkCrawler finds some pages which are required to gather links. _find_page_links is responsible to find all post links which are the given page.
+    Required services are in this module and you can use them to work with account management system.
+<ul>
+    <li>
+        register_user function: You should pass a Use object, captcha code and session object to this function.
+            As the name is clear this function will register user in system.
+            If captcha is not valid you will get  CaptchaException exception.
+            If user exist you will get : UserAlreadyExistException exception.
+            If user information is not ok ( for examample email is wrong ) you will get a ValidationException exception.
+        If user registered system will send activation_code to user email.
+    </li>
+    <li>
+        authenticate function: You should pass username and password to this function.
+        function will authenticate user.
+        if User is not active you will get UserInActiveException expcetion
+        if User does not exist you will get None object
+        if authentication is correct you will get User object.
+    </li>
+    <li>
+        activate function: You should pass an activation code to this function.
+        If activation code is for a user who is not active currently, his user will activate.
+        If User account was activated before, a UserActivationExpired exception will raise.
+    </li>
+</ul>
+</p>
+
+<h3>
+    mail
+</h3>
+
+<p>
+    send_mail is in this module.
+</p>
+
+<h3>
+    exceptions
+</h3>
+<p>
+    All possible exceptions are in this module.
 </p>
 
 <h2>
-    post_reader
-</h2>
-
-<p>
-    post_reader is responsible to fetch required information from post page. The mechanism of fetching field has comment to make the
-    algorithm clean for you.
-</p>
-<h2>
-    persistence
+    Security Notes:
 </h2>
 <p>
-    persistence module is persist posts in mongodb. This module creates a mongoclient and uses given db and collections to do its operation.
-    insert_product method persists posts but before change the id field with _id because in mongodb _id is our primary_key and i want to have a general
-    way to insert and update documents.
-    i used update operation with upsert=True , this operation can update existed document but if document does not exist it will insert it.
+    Every post form has a csrf token. So CSRF attack is not possible.
+    All queries are created with an ORM so Sql Injection is not possible.
+    For sniffing we can use SSL/TLS for transport protocol easily.
+    All passwords are hashed so sniffing between web server and dbms is not a case.
 </p>
-<h2>
-    strategies
-</h2>
-<p>
-    The strategies are defined in this module, currently system has 2 strategy for fetching products (sequential and multithread)
-</p>
-
-<h2>
-    run_me
-</h2>
-<p>
-    run_me module is an orchestration between different modules of application. You can read it as a story board.
-</p>
-
 </body>
 </html>
